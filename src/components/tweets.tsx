@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { ITweet } from "./timeline";
 import { auth, db, storage } from "../firebase";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 
 const Wrapper = styled.div`
@@ -30,8 +30,7 @@ const Payload = styled.p`
     font-size: 18px;
 `;
 
-const Deletebutton = styled.button`
-    background-color: tomato;
+const Button = styled.button`
     color: white;
     font-weight: 600;
     border: 0;
@@ -40,6 +39,13 @@ const Deletebutton = styled.button`
     text-transform: uppercase;
     border-radius: 5px;
     cursor: pointer;
+    &.edit {
+        background-color: #1d9bf0;
+    }
+    &.delete {
+        background-color: tomato;
+        margin-right: 5px;
+    }
 `;
 
 export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
@@ -58,12 +64,31 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
         } finally {
         }
     };
+    // edit 버튼 만들기
+    const onEdit = async () => {
+        if (user?.uid !== userId) return;
+        try {
+            // await updateDoc(doc, "tweets", )
+        } catch (e) {
+            console.log(e);
+        } finally {
+        }
+    };
     return (
         <Wrapper>
             <Column>
                 <Username>{username}</Username>
                 <Payload>{tweet}</Payload>
-                {user?.uid === userId ? <Deletebutton onClick={onDelete}>Delete</Deletebutton> : null}
+                {user?.uid === userId ? (
+                    <Button className="delete" onClick={onDelete}>
+                        Delete
+                    </Button>
+                ) : null}
+                {user?.uid === userId ? (
+                    <Button onClick={onEdit} className="edit">
+                        Edit
+                    </Button>
+                ) : null}
             </Column>
             <Column>{photo ? <Photo src={photo} /> : null}</Column>
         </Wrapper>

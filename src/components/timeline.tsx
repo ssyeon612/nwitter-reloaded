@@ -18,6 +18,7 @@ const Wrapper = styled.div`
     display: flex;
     gap: 10px;
     flex-direction: column;
+    overflow-y: scroll;
 `;
 
 export default function Timeline() {
@@ -51,6 +52,7 @@ export default function Timeline() {
             unsubscribe && unsubscribe();
         };
     }, []);
+  
     return (
         <Wrapper>
             {tweets.map((tweet) => (
