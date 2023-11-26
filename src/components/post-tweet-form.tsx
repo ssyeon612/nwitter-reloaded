@@ -70,7 +70,8 @@ export default function PostTweetForm() {
 
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
-        if (files && files.length === 1) {
+      if (files && files.length === 1) {
+          // 파일 1MB 미만으로 등록 되게 해보기
             setFile(files[0]);
         }
     };
@@ -89,7 +90,7 @@ export default function PostTweetForm() {
             });
 
             if (file) {
-                const locationRef = ref(storage, `tweets/${user.uid}-${user.displayName}/${doc.id}`);
+                const locationRef = ref(storage, `tweets/${user.uid}/${doc.id}`);
                 const result = await uploadBytes(locationRef, file);
                 const url = await getDownloadURL(result.ref);
                 await updateDoc(doc, {
