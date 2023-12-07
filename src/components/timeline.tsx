@@ -19,6 +19,9 @@ const Wrapper = styled.div`
     gap: 10px;
     flex-direction: column;
     overflow-y: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `;
 
 export default function Timeline() {
@@ -52,7 +55,7 @@ export default function Timeline() {
             unsubscribe && unsubscribe();
         };
     }, []);
-  
+
     return (
         <Wrapper>
             {tweets.map((tweet) => (

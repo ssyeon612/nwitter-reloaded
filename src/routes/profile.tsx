@@ -77,12 +77,18 @@ const Tweets = styled.div`
     gap: 10px;
 `;
 
+const ErrorMessage = styled.span`
+    color: tomato;
+    font-size: 15px;
+`;
+
 export default function Profile() {
     const user = auth.currentUser;
     const [avatar, setAvatar] = useState(user?.photoURL);
     const [isEdit, setIsEdit] = useState(false);
     const [name, setName] = useState(user?.displayName);
     const [tweets, setTweets] = useState<ITweet[]>([]);
+    const [isShowError, setIsShowError] = useState(false);
     const onAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
         if (!user) return;
@@ -97,10 +103,16 @@ export default function Profile() {
     };
 
     const onEditName = async () => {
-        setIsEdit(!isEdit);
         if (isEdit) {
-            if (!user || name === "") return;
+            if (!user || name === "") {
+                setIsShowError(true);
+                return;
+            }
+            setIsEdit(false);
+            setIsShowError(false);
             await updateProfile(user, { displayName: name });
+        } else {
+            setIsEdit(true);
         }
     };
 
@@ -154,6 +166,8 @@ export default function Profile() {
                     </svg>
                 </EditButton>
             </NameBox>
+            {isShowError && <ErrorMessage>닉네임을 입력해주세요.</ErrorMessage>}
+
             <Tweets>
                 {tweets.map((tweet) => (
                     <Tweet key={tweet.id} {...tweet} />
