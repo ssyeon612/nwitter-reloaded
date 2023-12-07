@@ -7,10 +7,6 @@ import { Link } from "react-router-dom";
 import { Error, Form, Input, Switcher, Title, Wrapper } from "../components/auth-component";
 import GithubButton from "../components/github-btn";
 
-const errors = {
-    "auth/email-already-in-use": "이메일이 이미 존재합니다.",
-};
-
 
 export default function CreateAccount() {
     const navigate = useNavigate();
